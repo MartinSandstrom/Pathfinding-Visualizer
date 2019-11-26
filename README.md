@@ -1,5 +1,5 @@
 # Pathfinding-Visualizer
 
-Pathfinding Visualizer from Clément Mihailescu
+Pathfinding Visualizer inspired by Clément Mihailescu
 
 https://martinsandstrom.github.io/Pathfinding-Visualizer/
