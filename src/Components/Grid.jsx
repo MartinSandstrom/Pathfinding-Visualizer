@@ -2,7 +2,9 @@ import React from "react";
 import "./Grid.css";
 
 import GridNode from "./GridNode";
-import { dijkstra, getNodesInShortestPathOrder } from "../algoritms/dijkstra";
+import { dijkstra } from "../algoritms/dijkstra";
+import { astar } from "../algoritms/astar";
+
 import {
     getInitialGrid,
     START_NODE_ROW,
@@ -10,10 +12,12 @@ import {
     FINISH_NODE_ROW,
     FINISH_NODE_COL
 } from "../helpers/helper";
-import { animateHtml, resetAnimations } from "../DOM/htmlAnimations";
+import { animateHtml } from "../DOM/htmlAnimations";
+import { getNodesInShortestPathOrder } from "../algoritms/algoHelpers";
 
 const ALGOS = {
-    dijkstra: dijkstra
+    dijkstra: dijkstra,
+    astar: astar
 };
 
 export default class Grid extends React.Component {
@@ -25,10 +29,6 @@ export default class Grid extends React.Component {
     componentDidMount = () => {
         const grid = getInitialGrid();
         this.setState({ grid });
-    };
-
-    reset = () => {
-        resetAnimations(this.state.grid);
     };
 
     visualize = () => {
@@ -47,6 +47,12 @@ export default class Grid extends React.Component {
         animateHtml(visitedNodesInOrder, nodesInShortestPathOrder);
     };
 
+    markAsWall = ({ row, col }) => {
+        const { grid } = this.state;
+        grid[row][col].isWall = !grid[row][col].isWall;
+        this.setState({ grid });
+    };
+
     render() {
         const { grid } = this.state;
         return (
@@ -56,13 +62,12 @@ export default class Grid extends React.Component {
                     onChange={e => this.setState({ algo: e.target.value })}
                 >
                     <option value="dijkstra">Dijkstra</option>
-                    <option value="test">test</option>
+                    <option value="astar">astar</option>
                 </select>
 
                 <div>
-                    <button onClick={this.visualize}>Do the dance</button>
+                    <button onClick={this.visualize}>Find shortest path</button>
                 </div>
-                <button onClick={this.reset}>Reset</button>
                 <div style={{ width: 750 }}>
                     {grid.map((row, rowIdx) => {
                         return (
@@ -72,10 +77,13 @@ export default class Grid extends React.Component {
                                         row,
                                         col,
                                         isFinish,
-                                        isStart
+                                        isStart,
+                                        isWall
                                     } = node;
                                     return (
                                         <GridNode
+                                            isWall={isWall}
+                                            markAsWall={this.markAsWall}
                                             key={nodeIdx}
                                             col={col}
                                             isFinish={isFinish}

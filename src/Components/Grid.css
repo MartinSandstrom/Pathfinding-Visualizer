@@ -24,3 +24,7 @@
 .node-shortest-path {
     background-color: #ffdc00;
 }
+
+.node-wall {
+    background-color: grey;
+}
