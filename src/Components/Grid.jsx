@@ -23,7 +23,8 @@ const ALGOS = {
 export default class Grid extends React.Component {
     state = {
         grid: [],
-        algo: "dijkstra"
+        algo: "dijkstra",
+        isAddingWalls: false
     };
 
     componentDidMount = () => {
@@ -51,6 +52,25 @@ export default class Grid extends React.Component {
         const { grid } = this.state;
         grid[row][col].isWall = !grid[row][col].isWall;
         this.setState({ grid });
+    };
+
+    onMouseDown = ({ row, col }) => {
+        const { grid } = this.state;
+        grid[row][col].isWall = !grid[row][col].isWall;
+        this.setState({ isAddingWalls: true, grid });
+    };
+
+    onMouseEnter = ({ row, col }) => {
+        const { grid, isAddingWalls } = this.state;
+        if (!isAddingWalls) {
+            return;
+        }
+        grid[row][col].isWall = !grid[row][col].isWall;
+        this.setState({ isAddingWalls: true, grid });
+    };
+
+    onMouseUp = () => {
+        this.setState({ isAddingWalls: false });
     };
 
     render() {
@@ -82,8 +102,10 @@ export default class Grid extends React.Component {
                                     } = node;
                                     return (
                                         <GridNode
+                                            onMouseDown={this.onMouseDown}
+                                            onMouseEnter={this.onMouseEnter}
+                                            onMouseUp={this.onMouseUp}
                                             isWall={isWall}
-                                            markAsWall={this.markAsWall}
                                             key={nodeIdx}
                                             col={col}
                                             isFinish={isFinish}
