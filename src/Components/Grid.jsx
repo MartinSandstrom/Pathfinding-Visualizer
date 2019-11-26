@@ -88,7 +88,6 @@ export default class Grid extends React.Component {
                         );
                     })}
                 </div>
-                <div style={{ margin: 200 }}>kalle</div>
             </div>
         );
     }
