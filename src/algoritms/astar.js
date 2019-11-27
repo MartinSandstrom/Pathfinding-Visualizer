@@ -1,14 +1,7 @@
 export function astar(grid, startNode, finishNode) {
     const allNodes = getAllNodes(grid);
     const visited = [];
-    for (let i = 1; i < allNodes.length; i++) {
-        const node = allNodes[i];
-        if (node === finishNode) {
-            return visited;
-        } else {
-            visited.push(node);
-        }
-    }
+    return [];
 }
 
 function getAllNodes(grid) {
