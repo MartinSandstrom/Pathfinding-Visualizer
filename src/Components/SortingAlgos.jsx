@@ -3,12 +3,14 @@ import { bubbleSort } from "../algoritms/sorting/bubble";
 import { quickSort } from "../algoritms/sorting/quicksort";
 import { mergeSort } from "../algoritms/sorting/merge";
 import { selectionSort } from "../algoritms/sorting/selection";
+import { insertionSort } from "../algoritms/sorting/insertion";
 
 const ALGOS = {
     bubble: bubbleSort,
     quick: quickSort,
     merge: mergeSort,
-    selection: selectionSort
+    selection: selectionSort,
+    insertion: insertionSort
 };
 
 function getRandomInt(min, max) {
@@ -22,7 +24,7 @@ const ANIMATION_STEP_TIME = 300;
 export default class SortingAlgos extends React.Component {
     state = {
         list: [],
-        algo: "bubble",
+        algo: "insertion",
         sorting: false
     };
 
@@ -41,7 +43,7 @@ export default class SortingAlgos extends React.Component {
         const { algo, list } = this.state;
         const algorithm = ALGOS[algo];
         this.setState({ sorting: true });
-        if (algo === "bubble" || algo === "selection") {
+        if (algo === "bubble" || algo === "selection" || algo === "insertion") {
             this.sortWithOneList(algorithm, list);
         } else if (algo === "quick" || algo === "merge") {
             this.sortWithPivot(algorithm, list);
@@ -77,10 +79,8 @@ export default class SortingAlgos extends React.Component {
         const { list, sorting, done } = this.state;
         return (
             <div>
-                <select
-                    value={this.state.algo}
-                    onChange={e => this.setState({ algo: e.target.value })}
-                >
+                <select value={this.state.algo} onChange={e => this.setState({ algo: e.target.value })}>
+                    <option value="insertion">insertion</option>
                     <option value="bubble">bubble</option>
                     <option value="quick">quick</option>
                     <option value="merge">merge</option>

@@ -1,15 +1,6 @@
 import React from "react";
 
-const GridNode = ({
-    isFinish,
-    isStart,
-    isWall,
-    row,
-    col,
-    onMouseDown,
-    onMouseEnter,
-    onMouseUp
-}) => {
+const GridNode = ({ isFinish, isStart, isWall, row, col, onMouseDown, onMouseEnter, onMouseUp }) => {
     const custom = isStart ? "start-node" : isFinish ? "end-node" : "";
     return (
         <div

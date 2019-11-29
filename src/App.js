@@ -28,12 +28,10 @@ function App() {
                         <nav style={{ position: "fixed", top: 10, left: 100 }}>
                             <ul>
                                 <li style={{ listStyle: "none" }}>
-                                    <Link to="/">Path Finder</Link>
+                                    <Link to="/Pathfinding-Visualizer/">Path Finder</Link>
                                 </li>
                                 <li style={{ listStyle: "none" }}>
-                                    <Link to="/Sorting">
-                                        Sorting Algorithms
-                                    </Link>
+                                    <Link to="/Sorting">Sorting Algorithms</Link>
                                 </li>
                             </ul>
                         </nav>

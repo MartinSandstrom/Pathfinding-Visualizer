@@ -5,25 +5,21 @@ import GridNode from "./GridNode";
 import { dijkstra } from "../algoritms/dijkstra";
 import { astar } from "../algoritms/astar";
 
-import {
-    getInitialGrid,
-    START_NODE_ROW,
-    START_NODE_COL,
-    FINISH_NODE_ROW,
-    FINISH_NODE_COL
-} from "../helpers/helper";
+import { getInitialGrid, START_NODE_ROW, START_NODE_COL, FINISH_NODE_ROW, FINISH_NODE_COL } from "../helpers/helper";
 import { animateHtml } from "../DOM/htmlAnimations";
 import { getNodesInShortestPathOrder } from "../algoritms/algoHelpers";
+import { depthFirst } from "../algoritms/depthFirstSearch";
 
 const ALGOS = {
     dijkstra: dijkstra,
-    astar: astar
+    astar: astar,
+    depthFirst: depthFirst
 };
 
 export default class Grid extends React.Component {
     state = {
         grid: [],
-        algo: "dijkstra",
+        algo: "depthFirst",
         isAddingWalls: false
     };
 
@@ -42,9 +38,7 @@ export default class Grid extends React.Component {
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
         const visitedNodesInOrder = algorithm(grid, startNode, finishNode);
-        const nodesInShortestPathOrder = getNodesInShortestPathOrder(
-            finishNode
-        );
+        const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
         animateHtml(visitedNodesInOrder, nodesInShortestPathOrder);
     };
 
@@ -77,29 +71,21 @@ export default class Grid extends React.Component {
         const { grid } = this.state;
         return (
             <div>
-                <select
-                    value={this.state.algo}
-                    onChange={e => this.setState({ algo: e.target.value })}
-                >
+                <select value={this.state.algo} onChange={e => this.setState({ algo: e.target.value })}>
+                    <option value="depthFirst">depthFirst</option>
                     <option value="dijkstra">Dijkstra</option>
                     <option value="astar">astar</option>
                 </select>
 
                 <div>
-                    <button onClick={this.visualize}>Find shortest path</button>
+                    <button onClick={this.visualize}>Find path</button>
                 </div>
                 <div style={{ width: 750 }}>
                     {grid.map((row, rowIdx) => {
                         return (
                             <div key={rowIdx}>
                                 {row.map((node, nodeIdx) => {
-                                    const {
-                                        row,
-                                        col,
-                                        isFinish,
-                                        isStart,
-                                        isWall
-                                    } = node;
+                                    const { row, col, isFinish, isStart, isWall } = node;
                                     return (
                                         <GridNode
                                             onMouseDown={this.onMouseDown}
